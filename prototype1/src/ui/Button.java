@@ -19,7 +19,7 @@ public abstract class Button extends JComponent {
     protected int height;
 
     // Button states
-    private int stateNumber;
+    protected int stateNumber;
 
     public Button(int x, int y, int width, int height, AppPanel ap) {
         this.ap = ap;
@@ -49,14 +49,14 @@ public abstract class Button extends JComponent {
     /*
      * Simple hover animations
      */
-    private void enlarge() {
+    protected void enlarge() {
         x -= 4;
         y -= 4;
         width += 8;
         height += 8;
     }
 
-    private void shrink() {
+    protected void shrink() {
         x += 4;
         y += 4;
         width -= 8;

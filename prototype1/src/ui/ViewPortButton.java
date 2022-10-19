@@ -7,7 +7,7 @@ import main.AppPanel;
 public class ViewPortButton extends Button {
 
     private final String DIRECTION;
-    private final int VIEW_PORT_SPEED = 7;
+    private final int VIEW_PORT_SPEED = 6;
 
     public boolean movingUp;
     public boolean movingDown;

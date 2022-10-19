@@ -15,7 +15,7 @@ public class AppPanel extends JPanel implements Runnable {
     public final int TILE_SIZE = (int)(64 * 1);
 
     // SCREEN SETTINGS
-    public final int FPS = 30;
+    public final int FPS = 60;
     public final int MAX_SCREEN_COL = 16;
     public final int MAX_SCREEN_ROW = 12;
     public final int SCREEN_WIDTH = MAX_SCREEN_COL * TILE_SIZE;
@@ -25,6 +25,7 @@ public class AppPanel extends JPanel implements Runnable {
     Thread appThread;
     Renderer renderer = new Renderer(this);;
     public Map map = new Map(0, 0, 2482, 1232, this);
+
 
     /*
      * Constructor for AppPanel
@@ -44,7 +45,7 @@ public class AppPanel extends JPanel implements Runnable {
 
 
     /*
-     * Starts a new thread for the applicatoin
+     * Starts a new thread for the application
      */
     public void startThread() {
         appThread = new Thread(this);
@@ -58,7 +59,9 @@ public class AppPanel extends JPanel implements Runnable {
      */
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+
+        // Limit loop speed to FPS
+        double drawInterval = 1000000000 / FPS; // 1 second / FPS
         double delta = 0;
         long lastTime = System.nanoTime();
 
@@ -68,28 +71,20 @@ public class AppPanel extends JPanel implements Runnable {
             lastTime = currentTime;
 
             if (delta >= 1) {
-                // 1 UPDATE: update information such as object positions
                 update();
-                // 2 DRAW: draw the screen with the updated information
                 repaint();
-
                 delta--;
             }
         }
     }
 
 
-
     /*
      * Update any changes to the application attributes
      */
     public void update() {
-
         // Update view port
-        map.moveLeftButton.updateViewPort();
-        map.moveRightButton.updateViewPort();
-        map.moveUpButton.updateViewPort();
-        map.moveDownButton.updateViewPort();
+        map.updateViewPort();
     }
 
 
@@ -106,6 +101,9 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Draw routers
         renderer.renderRouters(g2);
+
+        // Draw UI buttons
+        renderer.renderUiButtons(g2);
     }
     
 }
