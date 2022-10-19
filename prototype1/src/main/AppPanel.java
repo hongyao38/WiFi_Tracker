@@ -1,0 +1,111 @@
+package main;
+
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
+import ui.Renderer;
+import entity.Map;
+
+public class AppPanel extends JPanel implements Runnable {
+
+    // TILE SETTINGS
+    public final int TILE_SIZE = (int)(64 * 1);
+
+    // SCREEN SETTINGS
+    public final int FPS = 30;
+    public final int MAX_SCREEN_COL = 16;
+    public final int MAX_SCREEN_ROW = 12;
+    public final int SCREEN_WIDTH = MAX_SCREEN_COL * TILE_SIZE;
+    public final int SCREEN_HEIGHT = MAX_SCREEN_ROW * TILE_SIZE;
+
+    // APPLICATION PARAMETERS
+    Thread appThread;
+    Renderer renderer = new Renderer(this);;
+    public Map map = new Map(0, 0, 2482, 1232, this);
+
+    /*
+     * Constructor for AppPanel
+     * Sets the screen size
+     * and initializes any objects belonging to the app
+     */
+    public AppPanel() {
+
+        // Screen size settings
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH ,SCREEN_HEIGHT));
+        this.setDoubleBuffered(true);
+        this.setLayout(null);
+
+        // Add components
+        this.add(map);
+    }
+
+
+    /*
+     * Starts a new thread for the applicatoin
+     */
+    public void startThread() {
+        appThread = new Thread(this);
+        appThread.start();
+    }
+
+
+    /*
+     * Creates the application loop of updating attributes
+     * and rendering images onto screen
+     */
+    @Override
+    public void run() {
+        double drawInterval = 1000000000 / FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+
+        while (appThread != null) {
+            long currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                // 1 UPDATE: update information such as object positions
+                update();
+                // 2 DRAW: draw the screen with the updated information
+                repaint();
+
+                delta--;
+            }
+        }
+    }
+
+
+
+    /*
+     * Update any changes to the application attributes
+     */
+    public void update() {
+
+        // Update view port
+        map.moveLeftButton.updateViewPort();
+        map.moveRightButton.updateViewPort();
+        map.moveUpButton.updateViewPort();
+        map.moveDownButton.updateViewPort();
+    }
+
+
+    /*
+     * Graphics renderer
+     */
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        Graphics2D g2 = (Graphics2D)g;
+
+        // Draw map
+        renderer.renderMap(g2);
+
+        // Draw routers
+        renderer.renderRouters(g2);
+    }
+    
+}
