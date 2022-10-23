@@ -6,6 +6,8 @@ import entity.Router;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.BasicStroke;
 
 import javax.imageio.ImageIO;
 
@@ -13,7 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Renderer {
-    
+
     private AppPanel ap;
 
     // UI image library
@@ -24,12 +26,11 @@ public class Renderer {
         this.ap = ap;
 
         // Initialise image library
-        addNewImg("app/res/map/map.jpg");                 // 0
-        addNewImg("app/res/router/router.png");           // 1
+        addNewImg("app/res/map/map.jpg"); // 0
+        addNewImg("app/res/router/router.png"); // 1
         addNewImg("app/res/buttons/add_router_btn0.png"); // 2
         addNewImg("app/res/buttons/add_router_btn1.png"); // 3
     }
-
 
     /*
      * Opens from filepath as a new BufferedImage
@@ -45,7 +46,6 @@ public class Renderer {
         }
         imgs[imgCount++] = newImg;
     }
-
 
     /*
      * Render the map onto the screen
@@ -64,13 +64,26 @@ public class Renderer {
         }
     }
 
-
     /*
      * Render all the routers onto screen
      */
     public void renderRouters(Graphics2D g2) {
         for (Router r : ap.map.routers) {
-            g2.drawImage(imgs[1], r.x + ap.map.x, r.y + ap.map.y, ap.TILE_SIZE/2, ap.TILE_SIZE/2, null);
+            // Draw router itself
+            g2.drawImage(imgs[1], r.x + ap.map.x, r.y + ap.map.y, ap.TILE_SIZE / 2, ap.TILE_SIZE / 2, null);
+
+            // Draw ID number circle
+            g2.setColor(new Color(255, 255, 255));
+            g2.fillRoundRect(r.x + ap.map.x + 24, r.y + ap.map.y + 24, 18, 18, 9, 9);
+
+            // Draw Outline
+            g2.setColor(new Color(0, 0, 0));
+            g2.setStroke(new BasicStroke(2));
+            g2.drawRoundRect(r.x + ap.map.x + 24, r.y + ap.map.y + 24, 18, 18, 9, 9);
+
+            // Write ID number
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 19F));
+            g2.drawString(r.ID, r.x + ap.map.x + 27, r.y + ap.map.y + 40);
         }
     }
 

@@ -7,7 +7,8 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import ui.Renderer;
-import entity.Map;
+import entity.MapLayout;
+import entity.Person;
 
 public class AppPanel extends JPanel implements Runnable {
 
@@ -24,8 +25,8 @@ public class AppPanel extends JPanel implements Runnable {
     // APPLICATION PARAMETERS
     Thread appThread;
     Renderer renderer = new Renderer(this);;
-    public Map map = new Map(0, 0, 2482, 1232, this);
-
+    public MapLayout map = new MapLayout(0, 0, 2482, 1232, this);
+    public Person person = new Person(this);
 
     /*
      * Constructor for AppPanel
@@ -41,6 +42,7 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Add components
         this.add(map);
+        MapLayout.readRssiValues();
     }
 
 
