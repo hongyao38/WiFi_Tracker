@@ -28,4 +28,13 @@ public class Router {
     public void setRSSI(double rssi) {
         this.rssi = rssi;
     }
+
+    public double getFrequency() {
+        return frequency;
+    }
+
+    public double getRssi() {
+        return rssi;
+    }
+    
 }

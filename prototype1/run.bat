@@ -1,1 +1,1 @@
-compile.bat && java -cp output main.Main
+sh compile.bat && java -cp output main.Main
