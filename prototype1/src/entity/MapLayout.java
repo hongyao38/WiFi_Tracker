@@ -66,10 +66,10 @@ public class MapLayout extends Button {
             e.printStackTrace();
         }
 
-        // To visualise result
-        for (Map<String, Double> m : rssiValues) {
-            System.out.println(m);
-        }
+        // // To visualise result
+        // for (Map<String, Double> m : rssiValues) {
+        //     System.out.println(m);
+        // }
         return rssiValues;
     }
 

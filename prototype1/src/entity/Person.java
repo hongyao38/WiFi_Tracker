@@ -1,12 +1,11 @@
 package entity;
 
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import java.awt.Graphics2D;
-import java.awt.Font;
 
 import main.AppPanel;
 
@@ -27,7 +26,8 @@ public class Person {
         // locations.add(new int[]{250, 230});
     }
 
-    public void triangulate(Graphics2D g2) {
+    public void triangulate() {
+
         List<Map<String, Double>> rssiValues = MapLayout.readRssiValues();
 
         for (Map<String, Double> m : rssiValues) {
