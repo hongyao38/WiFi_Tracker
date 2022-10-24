@@ -1,1 +1,1 @@
-test
+compile.bat && java -cp output;lib/ejml-0.41-libs/* main.Main
