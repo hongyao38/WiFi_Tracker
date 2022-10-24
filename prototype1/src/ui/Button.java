@@ -13,8 +13,8 @@ public abstract class Button extends JComponent {
     private MouseHandler mouse;
 
     // Button position and dimension
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected int width;
     protected int height;
 

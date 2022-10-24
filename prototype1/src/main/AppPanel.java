@@ -106,6 +106,9 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Draw UI buttons
         renderer.renderUiButtons(g2);
+
+        // Draw person location path
+        person.renderPerson(g2);
     }
     
 }

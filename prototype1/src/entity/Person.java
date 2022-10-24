@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import java.awt.Graphics2D;
+import java.awt.Font;
 
 import main.AppPanel;
 
@@ -17,6 +18,13 @@ public class Person {
 
     public Person(AppPanel ap) {
         this.ap = ap;
+
+        // // Dummy location
+        // locations.add(new int[]{200, 200});
+        // locations.add(new int[]{220, 200});
+        // locations.add(new int[]{230, 210});
+        // locations.add(new int[]{240, 220});
+        // locations.add(new int[]{250, 230});
     }
 
     public void triangulate(Graphics2D g2) {
@@ -47,7 +55,9 @@ public class Person {
         for (int[] l : locations) {
             int x = l[0];
             int y = l[1];
+
+            g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 19F));
+            g2.drawString("X", x + ap.map.x, y + ap.map.y);
         }
-        // TODO: Draw image
     }
 }
