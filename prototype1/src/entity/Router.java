@@ -36,5 +36,13 @@ public class Router {
     public double getRssi() {
         return rssi;
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
     
 }
