@@ -26,7 +26,7 @@ public class Renderer {
         this.ap = ap;
 
         // Initialise image library
-        addNewImg("app/res/map/map.jpg"); // 0
+        addNewImg("app/res/map/t_junction.png"); // 0
         addNewImg("app/res/router/router.png"); // 1
         addNewImg("app/res/buttons/add_router_btn0.png"); // 2
         addNewImg("app/res/buttons/add_router_btn1.png"); // 3
@@ -51,7 +51,7 @@ public class Renderer {
      * Render the map onto the screen
      */
     public void renderMap(Graphics2D g2) {
-        Color c = new Color(40, 40, 40);
+        Color c = new Color(38, 38, 38);
         g2.setColor(c);
         g2.fillRect(-700, -700, 4000, 4000);
         g2.drawImage(imgs[0], ap.map.x, ap.map.y, ap.map.width, ap.map.height, null);

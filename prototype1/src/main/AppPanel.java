@@ -42,7 +42,7 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Add components
         this.add(map);
-        // person.triangulate();
+        person.triangulate();
     }
 
 
