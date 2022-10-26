@@ -160,7 +160,7 @@ public class Person {
         double levelInDb = router.getRssi();
 
         double exp = (27.55 - (20 * Math.log10(freqInMHz)) + Math.abs(levelInDb)) / 20.0;
-        return (Math.pow(10.0, exp)) * 1000;
+        return Math.pow(10.0, exp);
     }
 
     public void renderPerson(Graphics2D g2) {
