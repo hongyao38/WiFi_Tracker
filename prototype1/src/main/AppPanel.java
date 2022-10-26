@@ -19,8 +19,8 @@ public class AppPanel extends JPanel implements Runnable {
     public final int FPS = 60;
     public final int MAX_SCREEN_COL = 16;
     public final int MAX_SCREEN_ROW = 12;
-    public final int SCREEN_WIDTH = MAX_SCREEN_COL * TILE_SIZE;
-    public final int SCREEN_HEIGHT = MAX_SCREEN_ROW * TILE_SIZE;
+    public final int SCREEN_WIDTH = MAX_SCREEN_COL * TILE_SIZE; // 1024
+    public final int SCREEN_HEIGHT = MAX_SCREEN_ROW * TILE_SIZE; // 768
 
     // APPLICATION PARAMETERS
     Thread appThread;
@@ -42,7 +42,7 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Add components
         this.add(map);
-        // person.triangulate();
+        person.triangulate();
     }
 
 
