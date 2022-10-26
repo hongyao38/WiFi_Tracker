@@ -95,6 +95,11 @@ public class Person {
                 }
             }
 
+            System.out.print("Matrix A = ");
+            matrixA.print();
+            System.out.println("Matrix B = ");
+            matrixB.print();
+
             SimpleMatrix matrixATransposed = matrixA.transpose();
             SimpleMatrix projectionMatrix = ((matrixA.mult(matrixATransposed)).invert()).mult(matrixATransposed);
 
@@ -113,7 +118,6 @@ public class Person {
              * - Store into locations arraylist
              */
 
-             
         }
     }
 

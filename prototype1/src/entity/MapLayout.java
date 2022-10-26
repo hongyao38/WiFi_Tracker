@@ -44,6 +44,8 @@ public class MapLayout extends Button {
 
         // Create a dummy router
         routers.add(new Router(100, 100, ap));
+        routers.add(new Router(300, 300, ap));
+        routers.add(new Router(500, 10, ap));
     }
 
     public static List<Map<String, Double>> readRssiValues() {

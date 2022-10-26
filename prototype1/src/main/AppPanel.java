@@ -24,7 +24,7 @@ public class AppPanel extends JPanel implements Runnable {
 
     // APPLICATION PARAMETERS
     Thread appThread;
-    Renderer renderer = new Renderer(this);;
+    Renderer renderer = new Renderer(this);
     public MapLayout map = new MapLayout(0, 0, 2482, 1232, this);
     public Person person = new Person(this);
 
