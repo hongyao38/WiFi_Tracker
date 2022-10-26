@@ -59,6 +59,7 @@ public class Person {
                 
                 // Calculate approximate distance to router and store in map + add to ArrayList
                 double distance = this.getEstimatedDistanceWithRSSIValue(router);
+                System.out.println("Distance from Router = " + distance);
                 routerMap.put(router, distance);
                 routerList.add(routerMap);
                 // System.out.println("Finished putting map");
@@ -90,6 +91,10 @@ public class Person {
                 for (Map.Entry<Router, Double> entry : tempMap.entrySet()) {
                     r = entry.getKey();
                     tempDistance = entry.getValue();
+                }
+
+                if (r == null || tempDistance == null) {
+                    continue;
                 }
 
                 int tempX = r.getX();
