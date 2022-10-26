@@ -38,14 +38,14 @@ public class Person {
 
         List<Map<String, Double>> rssiValues = MapLayout.readRssiValues();
 
-        System.out.println("Finished gettings rssi values");
+        // System.out.println("Finished gettings rssi values");
 
         for (Map<String, Double> m : rssiValues) {
             Set<String> ids = m.keySet();
             List<Map<Router, Double>> routerList = new ArrayList<>();
 
             // Assign RSSI values to routers
-            System.out.println(ids);
+            // System.out.println(ids);
             for (String id : ids) {
                 System.out.println(id);
                 Map<Router, Double> routerMap = new HashMap<>();
@@ -55,13 +55,13 @@ public class Person {
                     return;
                 }
                 router.setRSSI(m.get(id));
-                System.out.println("Finished assigning rssi values");
+                // System.out.println("Finished assigning rssi values");
                 
                 // Calculate approximate distance to router and store in map + add to ArrayList
                 double distance = this.getEstimatedDistanceWithRSSIValue(router);
                 routerMap.put(router, distance);
                 routerList.add(routerMap);
-                System.out.println("Finished putting map");
+                // System.out.println("Finished putting map");
             }
 
             SimpleMatrix matrixA = null;
@@ -76,45 +76,69 @@ public class Person {
                 nDistance = nMap.get(r);
                 nX = r.getX();
                 nY = r.getY();
+
+                // System.out.println("nX " + nX + " nY " + nY);
             }
 
             // Get rest of the elements and fill up matrix A and B
-            Iterator<Entry<Router, Double>> setIter = nMap.entrySet().iterator();
-            while (setIter.hasNext()) {
+            
+            for (Map<Router, Double> tempMap : routerList) {
                 // Getting all the variables
-                Entry<Router, Double> entry = setIter.next();
-                Router r = entry.getKey();
-                Double tempDistance = entry.getValue();
+                Router r = null;
+                Double tempDistance = null;
+
+                for (Map.Entry<Router, Double> entry : tempMap.entrySet()) {
+                    r = entry.getKey();
+                    tempDistance = entry.getValue();
+                }
+
                 int tempX = r.getX();
                 int tempY = r.getY();
+
+                // System.out.println("Distance = " + tempDistance + " X = " + tempX + " Y = " + tempY);
 
                 SimpleMatrix tempARow = new SimpleMatrix(new double[][]{ {2 * (tempX - nX), 2 * (tempY - nY)} } );
                 SimpleMatrix tempBRow = new SimpleMatrix(new double[][]{ {Math.pow(tempX, 2) + Math.pow(tempY, 2) - Math.pow(nX, 2) - Math.pow(nY, 2) - Math.pow(tempDistance, 2) + Math.pow(nDistance, 2)} } );
 
+                
+
                 if (matrixA == null) {
                     matrixA = tempARow;
                 } else {
-                    matrixA.concatRows(tempARow);
+                    matrixA = matrixA.concatRows(tempARow);
                 }
 
                 if (matrixB == null) {
                     matrixB = tempBRow;
                 } else {
-                    matrixB.concatRows(tempBRow);
+                    matrixB = matrixB.concatRows(tempBRow);
                 }
+
+                // System.out.print("Current Matrix A = ");
+                // matrixA.print();
+                // System.out.print("Current Matrix B = ");
+                // matrixB.print();
+
             }
-            System.out.println("Ended loop");
+            // System.out.println("Ended loop");
+
+            System.out.print("Matrix A = ");
             matrixA.print();
+            System.out.print("Matrix B = ");
+            matrixB.print();
 
             SimpleMatrix matrixATransposed = matrixA.transpose();
-            // I thought need one more matrixA.mult(whole thing) -> P = A (ATA)-1 AT
             SimpleMatrix projectionMatrix = ((matrixA.mult(matrixATransposed)).invert()).mult(matrixATransposed);
+
+            System.out.print("Projection Matrix = ");
+            projectionMatrix.print();
 
             SimpleMatrix resultMatrix = projectionMatrix.mult(matrixB);
 
             int xCoord = (int) resultMatrix.get(0, 0);
             int yCoord = (int) resultMatrix.get(1, 0);
 
+            System.out.println("X Coord: " + xCoord + " y Coord: " + yCoord);
 
             locations.add(new int[]{xCoord, yCoord});
             
@@ -125,7 +149,6 @@ public class Person {
              * - Store into locations arraylist
              */
 
-             
         }
         for (int[] l : locations) {
             System.out.println(Arrays.toString(l));

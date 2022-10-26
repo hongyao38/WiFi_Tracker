@@ -1,5 +1,7 @@
 package main;
 
+import java.io.Console;
+
 import javax.swing.JFrame;
 
 public class Main {
