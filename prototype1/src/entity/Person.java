@@ -3,6 +3,7 @@ package entity;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,26 +34,34 @@ public class Person {
     }
 
     public void triangulate() {
+        System.out.println("Entered triangulate");
 
         List<Map<String, Double>> rssiValues = MapLayout.readRssiValues();
+
+        System.out.println("Finished gettings rssi values");
 
         for (Map<String, Double> m : rssiValues) {
             Set<String> ids = m.keySet();
             List<Map<Router, Double>> routerList = new ArrayList<>();
 
             // Assign RSSI values to routers
+            System.out.println(ids);
             for (String id : ids) {
+                System.out.println(id);
                 Map<Router, Double> routerMap = new HashMap<>();
                 Router router = ap.map.getRouter(id);
                 if (router == null) {
+                    System.out.println("returned null");
                     return;
                 }
                 router.setRSSI(m.get(id));
+                System.out.println("Finished assigning rssi values");
                 
                 // Calculate approximate distance to router and store in map + add to ArrayList
                 double distance = this.getEstimatedDistanceWithRSSIValue(router);
                 routerMap.put(router, distance);
                 routerList.add(routerMap);
+                System.out.println("Finished putting map");
             }
 
             SimpleMatrix matrixA = null;
@@ -94,8 +103,11 @@ public class Person {
                     matrixB.concatRows(tempBRow);
                 }
             }
+            System.out.println("Ended loop");
+            matrixA.print();
 
             SimpleMatrix matrixATransposed = matrixA.transpose();
+            // I thought need one more matrixA.mult(whole thing) -> P = A (ATA)-1 AT
             SimpleMatrix projectionMatrix = ((matrixA.mult(matrixATransposed)).invert()).mult(matrixATransposed);
 
             SimpleMatrix resultMatrix = projectionMatrix.mult(matrixB);
@@ -114,6 +126,9 @@ public class Person {
              */
 
              
+        }
+        for (int[] l : locations) {
+            System.out.println(Arrays.toString(l));
         }
     }
 
