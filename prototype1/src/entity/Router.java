@@ -1,25 +1,24 @@
 package entity;
 
-import main.AppPanel;
-
 public class Router {
 
     private static int idSequence = 1;
+    public double spriteNum = 0;
 
-    // Router position
+    // Router pixel position
     public int x;
     public int y;
+    public int width = 32;
+    public int height = 32;
 
     // Router properties
     public final String ID;
-    private AppPanel ap;
-    private double frequency = 2400; // Mhz
+    private double frequency = 5000; // Mhz
     private double rssi; // Db
 
-    public Router(int x, int y, AppPanel ap) {
+    public Router(int x, int y) {
         this.x = x;
         this.y = y;
-        this.ap = ap;
 
         // Assign an ID to router
         ID = "" + idSequence++;
@@ -37,12 +36,24 @@ public class Router {
         return rssi;
     }
 
-    public int getX() {
-        return x;
+    protected void enlarge() {
+        x -= 4;
+        y -= 4;
+        width += 8;
+        height += 8;
     }
 
-    public int getY() {
-        return y;
+    protected void shrink() {
+        x += 4;
+        y += 4;
+        width -= 8;
+        height -= 8;
     }
-    
+
+    public void animate() {
+        spriteNum += 0.1;
+        if (spriteNum > 8) {
+            spriteNum = 0;
+        }
+    }
 }

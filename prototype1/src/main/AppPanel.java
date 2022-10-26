@@ -25,7 +25,7 @@ public class AppPanel extends JPanel implements Runnable {
     // APPLICATION PARAMETERS
     Thread appThread;
     Renderer renderer = new Renderer(this);
-    public MapLayout map = new MapLayout(0, 0, 2482, 1232, this);
+    public MapLayout map = new MapLayout(0, 0, 2100, 2100, this);
     public Person person = new Person(this);
 
     /*
@@ -42,7 +42,6 @@ public class AppPanel extends JPanel implements Runnable {
 
         // Add components
         this.add(map);
-        person.triangulate();
     }
 
 
@@ -87,6 +86,7 @@ public class AppPanel extends JPanel implements Runnable {
     public void update() {
         // Update view port
         map.updateViewPort();
+        map.animateRouters();
     }
 
 
@@ -104,11 +104,11 @@ public class AppPanel extends JPanel implements Runnable {
         // Draw routers
         renderer.renderRouters(g2);
 
+        // Draw person location path
+        renderer.renderPerson(g2);
+
         // Draw UI buttons
         renderer.renderUiButtons(g2);
-
-        // Draw person location path
-        person.renderPerson(g2);
     }
     
 }

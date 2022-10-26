@@ -6,12 +6,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Map;
+import java.util.Scanner;
 
 import main.AppPanel;
 import ui.AddRouterButton;
 import ui.Button;
+import ui.TrackLocationButton;
 import ui.ViewPortButton;
 
 public class MapLayout extends Button {
@@ -25,6 +26,7 @@ public class MapLayout extends Button {
     // Map Parameters
     public boolean inAddRouterMode; 
     public AddRouterButton addRouterBtn;
+    public TrackLocationButton trackNewLocationBtn;
 
     // Routers
     public List<Router> routers = new ArrayList<>();
@@ -42,10 +44,12 @@ public class MapLayout extends Button {
         addRouterBtn = new AddRouterButton(ap);
         this.add(addRouterBtn);
 
-        // Create a dummy router
-        routers.add(new Router(100, 100, ap));
-        routers.add(new Router(300, 300, ap));
-        routers.add(new Router(500, 10, ap));
+        // Add "trackLocationButton"
+        trackNewLocationBtn = new TrackLocationButton(ap);
+        this.add(trackNewLocationBtn);
+
+        // Populate routers
+        populateRouters();
     }
 
     public static List<Map<String, Double>> readRssiValues() {
@@ -75,6 +79,27 @@ public class MapLayout extends Button {
         return rssiValues;
     }
 
+    private void populateRouters() {
+        try {
+            File file = new File("app/res/router/router_locations.txt");
+            Scanner sc = new Scanner(file);
+
+            while (sc.hasNextLine()) {
+                // Get coordinate
+                String[] coordinate = sc.nextLine().split(",");
+                int x = Integer.parseInt(coordinate[0]);
+                int y = Integer.parseInt(coordinate[1]);
+                Router newRouter = new Router(x, y);
+
+                // Add to router
+                routers.add(newRouter);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            e.printStackTrace();
+        }
+    }
+
     public Router getRouter(String id) {
         for (Router r : routers) {
             if (r.ID.equals(id)) {
@@ -88,7 +113,7 @@ public class MapLayout extends Button {
     public void onLeftClick(MouseEvent e) {
         if (!inAddRouterMode) return;
 
-        Router newRouter = new Router(e.getX()-10-x, e.getY()-20-y, ap);
+        Router newRouter = new Router(e.getX()-10-x, e.getY()-20-y);
         routers.add(newRouter);
     }
 
@@ -109,5 +134,11 @@ public class MapLayout extends Button {
         moveRightButton.updateViewPort();
         moveUpButton.updateViewPort();
         moveDownButton.updateViewPort();
+    }
+
+    public void animateRouters() {
+        for (Router r : routers) {
+            r.animate();
+        }
     }
 }
