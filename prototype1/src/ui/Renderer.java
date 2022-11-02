@@ -27,17 +27,18 @@ public class Renderer {
 
         // Initialise image library
         addNewImg("app/res/map/t_junction.png");              // 0
-        addNewImg("app/res/router/router0.png");              // 1
-        addNewImg("app/res/router/router1.png");              // 2
-        addNewImg("app/res/router/router2.png");              // 3
-        addNewImg("app/res/router/router3.png");              // 4
-        addNewImg("app/res/router/router4.png");              // 5
-        addNewImg("app/res/router/router5.png");              // 6
-        addNewImg("app/res/router/router6.png");              // 7
-        addNewImg("app/res/router/router7.png");              // 8
+        for (int i = 0; i < 8; i++) {
+            addNewImg("app/res/router/router" + i + ".png");           // 1
+        }
         addNewImg("app/res/buttons/add_router_btn0.png");     // 9
-        addNewImg("app/res/buttons/track_location_btn0.png"); // 10
-        addNewImg("app/res/person/person_sprite.png");        // 11
+        addNewImg("app/res/buttons/add_router_btn1.png");     // 10
+        addNewImg("app/res/buttons/track_location_btn0.png"); // 11
+        for (int i = 0; i < 4; i++) {
+            addNewImg("app/res/buttons/view_port" + i + ".png");        // 12
+        }
+        for (int i = 0; i < 8; i++) {
+            addNewImg("app/res/person/person" + i + ".png");            // 16
+        }
     }
 
     /*
@@ -99,12 +100,35 @@ public class Renderer {
      * Renders UI buttons
      */
     public void renderUiButtons(Graphics2D g2) {
+        // Add Router
         Button btn = ap.map.addRouterBtn;
-        g2.drawImage(imgs[9], btn.x, btn.y, btn.width, btn.height, null);
+        int btnState = ap.map.inAddRouterMode ? 1 : 0;
+        g2.drawImage(imgs[9 + btnState], btn.x, btn.y, btn.width, btn.height, null);
 
+        // Track Location
         btn = ap.map.trackNewLocationBtn;
-        g2.drawImage(imgs[10], btn.x, btn.y, btn.width, btn.height, null);
+        g2.drawImage(imgs[11], btn.x, btn.y, btn.width, btn.height, null);
     }
+
+
+    /*
+     * Render view port arrows
+     */
+    public void renderViewPort(Graphics2D g2) {
+        if (ap.map.isMovingLeft()) {
+            g2.drawImage(imgs[12], 20, ap.SCREEN_HEIGHT / 2 - ap.TILE_SIZE / 2, ap.TILE_SIZE, ap.TILE_SIZE, null);
+        }
+        if (ap.map.isMovingRight()) {
+            g2.drawImage(imgs[13], ap.SCREEN_WIDTH - ap.TILE_SIZE - 20, ap.SCREEN_HEIGHT / 2 - ap.TILE_SIZE / 2, ap.TILE_SIZE, ap.TILE_SIZE, null);
+        }
+        if (ap.map.isMovingUp()) {
+            g2.drawImage(imgs[14], ap.SCREEN_WIDTH / 2 - ap.TILE_SIZE / 2, 20, ap.TILE_SIZE, ap.TILE_SIZE, null);
+        }
+        if (ap.map.isMovingDown()) {
+            g2.drawImage(imgs[15], ap.SCREEN_WIDTH / 2 - ap.TILE_SIZE / 2, ap.SCREEN_HEIGHT - ap.TILE_SIZE - 20, ap.TILE_SIZE, ap.TILE_SIZE, null);
+        }
+    }
+
 
     /*
      * Render person on screen
@@ -113,7 +137,7 @@ public class Renderer {
         for (int[] l : ap.person.locations) {
             int x = l[0];
             int y = l[1];
-            g2.drawImage(imgs[11], x + ap.map.x, y + ap.map.y, null);
+            g2.drawImage(imgs[16 + (int)ap.person.spriteNum], x + ap.map.x, y + ap.map.y, null);
         }
     }
 }

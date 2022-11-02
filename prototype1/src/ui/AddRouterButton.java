@@ -7,7 +7,7 @@ import main.AppPanel;
 public class AddRouterButton extends Button {
     
     public AddRouterButton(AppPanel ap) {
-        super(13 * ap.TILE_SIZE, 10 * ap.TILE_SIZE, 149, 45, ap);
+        super(ap.SCREEN_WIDTH - 3 * ap.TILE_SIZE, ap.SCREEN_HEIGHT - 2 * ap.TILE_SIZE, 149, 45, ap);
     }
 
     @Override

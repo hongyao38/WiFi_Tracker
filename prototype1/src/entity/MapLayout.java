@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,15 +57,17 @@ public class MapLayout extends Button {
         List<Map<String, Double>> rssiValues = new ArrayList<>();
 
         try {
-            File file = new File("app/res/rssi/rssi_values.txt");
+            File file = new File("app/res/rssi/rssi_values2.txt");
             Scanner sc = new Scanner(file);
 
             while (sc.hasNextLine()) {
+                System.out.println("reading");
                 Map<String, Double> routerRssi = new HashMap<>();
                 String[] values = sc.nextLine().split(",");
                 for (String v : values) {
                     String[] idToRssi = v.split(":");
-                    routerRssi.put(idToRssi[0], Double.parseDouble(idToRssi[1]));
+                    if (!idToRssi[1].equals("NULL"))
+                        routerRssi.put(idToRssi[0], Double.parseDouble(idToRssi[1]));
                 }
                 rssiValues.add(routerRssi);
             }
@@ -76,6 +79,7 @@ public class MapLayout extends Button {
         // for (Map<String, Double> m : rssiValues) {
         //     System.out.println(m);
         // }
+        System.out.println(rssiValues);
         return rssiValues;
     }
 
@@ -140,5 +144,18 @@ public class MapLayout extends Button {
         for (Router r : routers) {
             r.animate();
         }
+    }
+
+    public boolean isMovingUp() {
+        return moveUpButton.movingUp;
+    }
+    public boolean isMovingDown() {
+        return moveDownButton.movingDown;
+    }
+    public boolean isMovingRight() {
+        return moveRightButton.movingRight;
+    }
+    public boolean isMovingLeft() {
+        return moveLeftButton.movingLeft;
     }
 }

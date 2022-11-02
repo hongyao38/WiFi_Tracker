@@ -9,11 +9,13 @@ import main.AppPanel;
 public class TrackLocationButton extends Button {
 
     public TrackLocationButton(AppPanel ap) {
-        super(13 * ap.TILE_SIZE, 9 * ap.TILE_SIZE, 149, 45, ap);
+        super(ap.SCREEN_WIDTH - 3 * ap.TILE_SIZE, ap.SCREEN_HEIGHT - 3 * ap.TILE_SIZE, 149, 45, ap);
     }
 
     @Override
     public void onLeftClick(MouseEvent e) {
+
+        // Multi-threading to allow triangulate to run while rendering UI
         SwingWorker<String, String> worker = new SwingWorker<>() {
             @Override
             protected String doInBackground() throws Exception {
