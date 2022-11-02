@@ -15,12 +15,14 @@ public class Person {
     private AppPanel ap;
 
     public List<int[]> locations = new ArrayList<>();
+    public double spriteNum;
 
     public Person(AppPanel ap) {
         this.ap = ap;
     }
 
     public void triangulate() {
+        locations.clear();
         List<Map<String, Double>> rssiValues = MapLayout.readRssiValues();
 
         for (Map<String, Double> m : rssiValues) {
@@ -41,7 +43,7 @@ public class Person {
                 
                 // Calculate approximate distance to router and store in map + add to ArrayList
                 double distance = this.getEstimatedDistanceWithRSSIValue(router);
-                System.out.println("Distance from Router = " + distance);
+                // System.out.println(String.format("Distance from Router %s = %.2f", id, distance));
                 routerMap.put(router, distance);
                 routerList.add(routerMap);
             }
@@ -107,7 +109,7 @@ public class Person {
             waitTime(200);
         }
         // for (int[] l : locations) {
-        //     System.out.println(Arrays.toString(l));
+        //     System.out.println("here: " + Arrays.toString(l));
         // }
     }
 
@@ -127,6 +129,13 @@ public class Person {
         while (interval < duration) {
             long currentTime = System.currentTimeMillis();
             interval = currentTime - previousTime;
+        }
+    }
+
+    public void animate() {
+        spriteNum += 0.1;
+        if (spriteNum > 8) {
+            spriteNum = 0;
         }
     }
 }
